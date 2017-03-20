@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>RosIMU</name>
+  <name>msg_definitions</name>
   <version>0.0.0</version>
-  <description>The RosIMU package</description>
+  <description>The msg_definitions package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/RosIMU</url> -->
+  <!-- <url type="website">http://wiki.ros.org/msg_definitions</url> -->
 
 
   <!-- Author tags are optional, mutiple are allowed, one per tag -->
@@ -43,11 +43,6 @@
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>std_msgs</build_depend>
-	
-
-  <build_depend>msg_definitions</build_depend>
-  <run_depend>msg_definitions</run_depend> <!-- This is the package name of the package containing the message definitions -->
-	
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>

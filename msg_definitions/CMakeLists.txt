@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(RosIMU)
+project(msg_definitions)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
-  msg_definitions
 )
 
 ## System dependencies are found with CMake's conventions
@@ -46,10 +45,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-#add_message_files(
-#  FILES
-#  imu_data.msg
-#)
+add_message_files(
+  FILES
+  imu_data.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -66,11 +65,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-#generate_messages(
-#   DEPENDENCIES
-#   msg_definitions #Package name of the package with the message defintions in
-#   std_msgs
-#)
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -103,8 +101,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES RosIMU
-#  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
+#  LIBRARIES msg_definitions
+#  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -120,24 +118,24 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(RosIMU
-#   src/${PROJECT_NAME}/RosIMU.cpp
+# add_library(msg_definitions
+#   src/${PROJECT_NAME}/msg_definitions.cpp
 # )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(RosIMU ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(msg_definitions ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(RosIMU_node src/RosIMU_node.cpp)
+# add_executable(msg_definitions_node src/msg_definitions_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(RosIMU_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(msg_definitions_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(RosIMU_node
+# target_link_libraries(msg_definitions_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -156,7 +154,7 @@ include_directories(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS RosIMU RosIMU_node
+# install(TARGETS msg_definitions msg_definitions_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -181,29 +179,10 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_RosIMU.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_msg_definitions.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-
-
-
-include_directories(include ${catkin_INCLUDE_DIRS})
-
-add_executable(ImuPublisher src/ImuPublisher.cpp)
-link_directories(/home/andrew/Documents/CAUV/LibFolder)
-target_link_libraries(ImuPublisher ${catkin_LIBRARIES} SbgComSerial)
-##add_dependencies(ImuPublisher RosIMU_generate_messages_cpp)
-add_dependencies(ImuPublisher RosIMU_generate_messages_cpp)
-
-
-
-
-add_executable(ImuTestReader src/ImuTestReader.cpp)
-target_link_libraries(ImuTestReader ${catkin_LIBRARIES})
-add_dependencies(ImuTestReader RosIMU_generate_messages_cpp)
-

@@ -1,10 +1,10 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
-#include <RosIMU/imu_data.h>
+#include <msg_definitions/imu_data.h>
 
 
 
-void imu_dataCallback(const RosIMU::imu_data::ConstPtr& msg)
+void imu_dataCallback(const msg_definitions::imu_data::ConstPtr& msg)
 {	
 	char roll_string[33], pitch_string[10], yaw_string[10];
 	snprintf(roll_string, 10, "%f", msg->roll);

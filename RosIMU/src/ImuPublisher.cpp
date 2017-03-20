@@ -4,7 +4,7 @@
 #include "sbgCom/sbgCom.h"
 #include "ros/ros.h"
 #include "std_msgs/String.h"
-#include <RosIMU/imu_data.h> //This is the custom message file
+#include <msg_definitions/imu_data.h> //This is the custom message file. It is stored in another package within the same repository called msg_definitions
 
 //----------------------------------------------------------------------//
 //  Main program                                                        //
@@ -15,18 +15,18 @@ int main(int argc, char** argv)
 	ros::init(argc, argv, "ImuPublisher");
 	ros::NodeHandle n;
 	//The ros topic for the imu data is called 'imu_data'
-	ros::Publisher imu_pub = n.advertise<RosIMU::imu_data>("imu_data", 1000);
+	ros::Publisher imu_pub = n.advertise<msg_definitions::imu_data>("imu_data", 1000);
 
 
 	SbgProtocolHandle protocolHandle;
 	SbgErrorCode error;
 	SbgOutput output;
-	RosIMU::imu_data msg_packet; 
+	msg_definitions::imu_data msg_packet; 
 
 	//
 	// Init our communications with the device (Please change here the com port and baud rate)
 	//
-	if (sbgComInit("/dev/ttyUSB1", 115200, &protocolHandle) == SBG_NO_ERROR)
+	if (sbgComInit("/dev/ttyUSB0", 115200, &protocolHandle) == SBG_NO_ERROR)
 	{
 		//
 		// Wait until the device has been initialised
