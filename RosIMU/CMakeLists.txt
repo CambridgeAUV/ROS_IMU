@@ -198,12 +198,12 @@ add_executable(ImuPublisher src/ImuPublisher.cpp)
 link_directories(/home/andrew/Documents/CAUV/LibFolder)
 target_link_libraries(ImuPublisher ${catkin_LIBRARIES} SbgComSerial)
 ##add_dependencies(ImuPublisher RosIMU_generate_messages_cpp)
-add_dependencies(ImuPublisher RosIMU_generate_messages_cpp)
+add_dependencies(ImuPublisher msg_definitions_generate_messages_cpp)
 
 
 
 
 add_executable(ImuTestReader src/ImuTestReader.cpp)
 target_link_libraries(ImuTestReader ${catkin_LIBRARIES})
-add_dependencies(ImuTestReader RosIMU_generate_messages_cpp)
+add_dependencies(ImuTestReader msg_definitions_generate_messages_cpp)
 
