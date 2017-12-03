@@ -5,6 +5,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include <msg_definitions/imu_data.h> //This is the custom message file. It is stored in another package within the same repository called msg_definitions
+#include <iostream>
 
 //----------------------------------------------------------------------//
 //  Main program                                                        //
@@ -33,30 +34,41 @@ int main(int argc, char** argv)
 		//
 		sbgSleep(50);
 		
+                if(sbgRestoreDefaultSettings(protocolHandle, false) != SBG_NO_ERROR) {
+                    std::cout << "Error restoring defaults" << std::endl;
+                }
 		//
 		// Display the title
 		//
-		printf("Euler Angles:\n");
+		printf("Kalman Positions:\n");
 
 		//
 		// Main loop
 		//
 		
-		while (1)
+		//while (1)
+                for(int i = 0; i < 50; ++i)
 		{
-			error = sbgGetSpecificOutput(protocolHandle, SBG_OUTPUT_EULER, &output);
+                        error = sbgGetSpecificOutput(protocolHandle, 
+                            SBG_OUTPUT_EULER | 
+                            SBG_OUTPUT_POSITION | 
+                            SBG_OUTPUT_VELOCITY | 
+                            SBG_OUTPUT_ATTITUDE_ACCURACY |
+                            SBG_OUTPUT_NAV_ACCURACY | 
+                            SBG_OUTPUT_ACCELEROMETERS |
+                            SBG_OUTPUT_GPS_POSITION,
+                             &output);
 			if (error == SBG_NO_ERROR)
 			{
 				//
 				// Displays sensor values in the console
 				//
-				printf("%3.2f\t%3.2f\t%3.2f\n",	SBG_RAD_TO_DEG(output.stateEuler[0]), //Roll
-												SBG_RAD_TO_DEG(output.stateEuler[1]), //Pitch
-												SBG_RAD_TO_DEG(output.stateEuler[2])); //Yaw
-				
-				msg_packet.roll = SBG_RAD_TO_DEG(output.stateEuler[0]);
-				msg_packet.pitch = SBG_RAD_TO_DEG(output.stateEuler[1]);
-				msg_packet.yaw = SBG_RAD_TO_DEG(output.stateEuler[2]);
+                               std::cout << "Positions: " << output.position[0] << " " << output.position[1] << " " << output.position[2] <<  std::endl;
+                               // std::cout << "Velocities: " << output.velocity[0] << " " << output.velocity[1] << " " << output.velocity[2] << std::endl;
+                               // std::cout << "Attitude Accuracy: " << output.attitudeAccuracy << std::endl;
+                               // std::cout << "Position accuracy: " << output.positionAccuracy << std::endl;
+                               //std::cout << "Accelerations: " << output.accelerometers[0] << " " << output.accelerometers[1] << " " << output.accelerometers[2] << std::endl;
+                                //std::cout << "GPS latitude: " << output.gpsLatitude << " longitude: " << output.gpsLongitude << std::endl;
 				imu_pub.publish(msg_packet);
 				ros::spinOnce();
 			}
@@ -66,6 +78,12 @@ int main(int argc, char** argv)
 			//
 			sbgSleep(10);
 		}
+
+                char error_log[SBG_ERROR_LOG_SIZE_BYTES];
+                if (sbgGetErrorLog(protocolHandle, &error_log, 0) != SBG_NO_ERROR) {
+                    std::cout << "Getting error log had an error" << std::endl;
+                }
+                std::cout << (int)error_log[0] << std::endl;
 
 		//
 		// Close our protocol system
